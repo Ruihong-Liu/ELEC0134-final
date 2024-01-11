@@ -1,0 +1,8 @@
+from preData import dataPrepare
+train_images_normalized,augmented_train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels,augmented_train_labels=dataPrepare()
+
+from trainCNN import train_model_origional
+history_ori=train_model_origional(train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels)
+
+from trainCNN import train_model_augmention
+history_aug=train_model_augmention(augmented_train_images_normalized,augmented_train_labels,val_images_normalized,test_images_normalized,val_labels,test_labels)
