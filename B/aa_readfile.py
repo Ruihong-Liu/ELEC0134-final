@@ -1,5 +1,4 @@
 import numpy as np
-import os
 def Dataread(file_path):
     # load data from file
     dataset = np.load(file_path)
