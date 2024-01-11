@@ -20,4 +20,4 @@ def display_random_images(images, labels, num_images=5):
         ax.axis('off')
         ax.set_title(f'Label: {labels[index]}')
     plt.suptitle("Ramdom selected 5 images from dataset",fontsize=16)
-    plt.savefig("images\sample.png")
+    plt.savefig("A\images\sample.png")

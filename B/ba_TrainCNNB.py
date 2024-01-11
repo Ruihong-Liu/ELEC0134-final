@@ -6,6 +6,8 @@ from tensorflow.keras.regularizers import l2
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, BatchNormalization, Flatten, Dense, MaxPooling2D
+import os
+
 
 def train_model( train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels):
     # Number of classes in your dataset
@@ -65,7 +67,7 @@ def train_model( train_images_normalized,val_images_normalized,test_images_norma
     plt.ylabel('Loss')
     plt.legend()
 
-    plt.show()
+    plt.savefig("B\images\Training and testing of 28_28 data.png")
 
     # 评估模型性能
     # test_images_normalized, test_labels

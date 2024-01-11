@@ -22,7 +22,7 @@ def train_model_origional(train_images_normalized,val_images_normalized,test_ima
         Conv2D(5, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
         Flatten(),
-        Dense(64, activation='relu', kernel_regularizer=l2(l2_reg)),
+        Dense(32, activation='relu', kernel_regularizer=l2(l2_reg)),
         Dropout(0.5),  # Dropout reduce overfit
         Dense(1, activation='sigmoid')
         ])
@@ -30,7 +30,7 @@ def train_model_origional(train_images_normalized,val_images_normalized,test_ima
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
     # train the model
-    history = model.fit(train_images_normalized, train_labels, validation_data=(val_images_normalized, val_labels), epochs=15, batch_size=32)
+    history = model.fit(train_images_normalized, train_labels, validation_data=(val_images_normalized, val_labels), epochs=10, batch_size=32)
 
     # test the accuary
     test_loss, test_accuracy = model.evaluate(test_images_normalized, test_labels)
@@ -54,7 +54,7 @@ def train_model_origional(train_images_normalized,val_images_normalized,test_ima
     plt.ylabel('Loss')
     plt.legend()
 
-    plt.savefig("images/Training and testing origional data.png")
+    plt.savefig("A/images/Training and testing origional data.png")
     return history
 
 # training with enhanced data
@@ -62,12 +62,11 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
     
     # L2 regulaisation
     l2_reg = 0.001
-
     #train the model CNN
     model = Sequential([
         Conv2D(5, kernel_size=3, activation='relu', input_shape=(augmented_train_images_normalized.shape[1], augmented_train_images_normalized.shape[2], 1), kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
-        Conv2D(9, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
+        Conv2D(9, kernel_size=3, activation='sigmoid', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
         Conv2D(5, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
@@ -80,7 +79,9 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
     # train the model
-    history = model.fit(augmented_train_images_normalized, augmented_train_labels, validation_data=(val_images_normalized, val_labels), epochs=15, batch_size=32)
+    history = model.fit(augmented_train_images_normalized, augmented_train_labels, 
+                        validation_data=(val_images_normalized, val_labels), 
+                        epochs=13, batch_size=32)
 
     # test the accuary
     test_loss, test_accuracy = model.evaluate(test_images_normalized, test_labels)
@@ -104,5 +105,5 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
     plt.ylabel('Loss')
     plt.legend()
 
-    plt.savefig("images/Training and testing enhanced data.png")
+    plt.savefig("A\images\Training and testing enhanced data.png")
     return history

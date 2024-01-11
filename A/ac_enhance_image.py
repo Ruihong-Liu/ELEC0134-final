@@ -4,6 +4,7 @@ enhance the data
 from PIL import Image, ImageEnhance, ImageOps, ImageFilter
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 # enhance datasets
 def enhanced_data(train_images, train_labels, num_augmentations=5):
     # enhance datasets
@@ -44,8 +45,15 @@ def enhanced_data(train_images, train_labels, num_augmentations=5):
                 augmented_labels.append(labels[i])
 
         return np.array(augmented_images), np.array(augmented_labels)
-    # recall the function above
-    augmented_train_images, augmented_train_labels = augment_and_merge_dataset(train_images, train_labels, num_augmentations=5)
+    augmented_train_images, augmented_train_labels = augment_and_merge_dataset(train_images, train_labels)
+    num_samples = 5  # number of samples that needs to be show
+    sample_indices = np.random.choice(augmented_train_images.shape[0], num_samples, replace=False)
+    fig, axes = plt.subplots(1, num_samples, figsize=(20, 4))
+    for i, idx in enumerate(sample_indices):
+        axes[i].imshow(augmented_train_images[idx])
+        axes[i].set_title(f"Label: {augmented_train_labels[idx]}")
+        axes[i].axis('off')
+    plt.savefig(r"A\images\sample_augmented.png")
     # print the datasets
     print("\n")
     print("Augmented Train Images Shape:", augmented_train_images.shape)

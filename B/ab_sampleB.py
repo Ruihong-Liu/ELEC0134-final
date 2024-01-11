@@ -3,7 +3,6 @@
 """
 import matplotlib.pyplot as plt
 import numpy as np
-import random
 # plot random sample
 def plot_sample(images, labels):
     unique_labels = np.unique(labels)
@@ -19,4 +18,4 @@ def plot_sample(images, labels):
         plt.axis('off')
 
     plt.suptitle('Random Sample for each lable')
-    plt.savefig("images/SampleB.png")
+    plt.savefig("B/images/SampleB.png")

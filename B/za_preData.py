@@ -19,10 +19,8 @@ def dataPrepare():
     from ac_Normalisation import NormalisationB
     train_images_normalized,val_images_normalized,test_images_normalized=NormalisationB(train_images,val_images,test_images)
     # resize the image from normalised data resize from 28-28 to 224-224
-    from ad_resize import resize_image
-    train_images_resized, val_images_resized, test_images_resized=resize_image(train_images,val_images,test_images)
 
-    return train_images,train_labels,val_images,val_labels,test_images,test_labels,train_images_normalized,val_images_normalized,test_images_normalized,train_images_resized, val_images_resized, test_images_resized
+    return train_images,train_labels,val_images,val_labels,test_images,test_labels,train_images_normalized,val_images_normalized,test_images_normalized
 
     
     
