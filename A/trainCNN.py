@@ -17,7 +17,7 @@ def train_model_origional(train_images_normalized,val_images_normalized,test_ima
     model = Sequential([
         Conv2D(5, kernel_size=3, activation='relu', input_shape=(train_images_normalized.shape[1], train_images_normalized.shape[2], 1), kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
-        Conv2D(9, kernel_size=3, activation='sigmoid', kernel_regularizer=l2(l2_reg)),
+        Conv2D(9, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
         Conv2D(5, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
@@ -67,7 +67,7 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
     model = Sequential([
         Conv2D(5, kernel_size=3, activation='relu', input_shape=(augmented_train_images_normalized.shape[1], augmented_train_images_normalized.shape[2], 1), kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
-        Conv2D(9, kernel_size=3, activation='sigmoid', kernel_regularizer=l2(l2_reg)),
+        Conv2D(9, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
         Conv2D(5, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
