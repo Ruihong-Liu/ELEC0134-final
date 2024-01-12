@@ -1,5 +1,4 @@
 import numpy as np
-import os
 def Dataread(file_path):
     # load data from file
     dataset = np.load(file_path)
@@ -34,5 +33,5 @@ def category_Data(dataset):
 
     # close the file
     dataset.close()
-
+    # return the function value for usage
     return  train_images,train_labels,val_images,val_labels,test_images,test_labels
