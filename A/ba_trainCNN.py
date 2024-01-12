@@ -1,13 +1,10 @@
 """
 for trainng CNN model
 """
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import KFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.regularizers import l2
-from tensorflow.keras.utils import to_categorical
 import time
 def train_model_origional(train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels):
      # L2 regulaisation
