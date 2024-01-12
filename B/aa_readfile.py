@@ -1,10 +1,15 @@
+"""
+read the data from .npz file and load it in to array
+"""
 import numpy as np
+# function of loading data
 def Dataread(file_path):
     # load data from file
     dataset = np.load(file_path)
     #check the categries of the dataset
     dataset.files
     return dataset
+# function of separate data into three different dataset
 def category_Data(dataset):
     #load each category as a variable
     #train data
