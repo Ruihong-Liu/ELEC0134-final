@@ -1,9 +1,8 @@
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-from pandas.plotting import table
 def table(history,json_file):
-    # store history to a dic
+    # store history result for each epoch to a dictionary
     history_dict = {
         "accuracy": history.history['accuracy'],
         "val_accuracy": history.history['val_accuracy'],
@@ -11,7 +10,7 @@ def table(history,json_file):
         "val_loss": history.history['val_loss']
     }
 
-    # save as JSON
+    # save as JSON file
     with open(json_file, "w") as json_file:
         json.dump(history_dict, json_file)
 
@@ -20,7 +19,7 @@ def table_show(json_file,png_file):
     #load data from json file
     data = pd.read_json(json_file)
 
-    # DataFrame
+    # save as DataFrame
     df = pd.DataFrame(data)
 
     # print DataFrame
