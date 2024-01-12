@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import numpy as np
 from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 from tensorflow.keras.models import Model
@@ -21,15 +22,45 @@ def CNN_resnet(train_images_normalized,train_labels,val_images_normalized,val_la
     test_images_prep = preprocess_input(test_images_normalized)
     # load resnet50 model
     base_model = ResNet50(weights='imagenet', include_top=False, input_tensor=Input(shape=(28, 28, 3)))
+=======
+import tensorflow as tf
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.utils import to_categorical
+import matplotlib.pyplot as plt
+def train_resnet(train_images, train_labels,val_images, val_labels,test_images, test_labels):
+    # 将标签转换为独热编码
+    train_labels = to_categorical(train_labels)
+    val_labels = to_categorical(val_labels)
+    test_labels = to_categorical(test_labels)
+
+    # 调整图像大小（ResNet50 默认输入尺寸至少为 32x32）
+    train_images_resized = tf.image.resize(train_images, [32, 32])
+    val_images_resized = tf.image.resize(val_images, [32, 32])
+    test_images_resized = tf.image.resize(test_images, [32, 32])
+
+    # 加载预训练的 ResNet50 模型
+    base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(32, 32, 3))
+
+    # 冻结基础模型
+    base_model.trainable = False
+>>>>>>> dc693b5235825a13cb2b3e6d443c2b0381e5d8b8
 
     # change the output layer to satisify task
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
     x = Dense(1024, activation='relu')(x)
+<<<<<<< HEAD
     predictions = Dense(9, activation='softmax')(x)
+=======
+    num_classes = train_labels.shape[1]  # 根据您的数据集类别数
+    predictions = Dense(num_classes, activation='softmax')(x)
+>>>>>>> dc693b5235825a13cb2b3e6d443c2b0381e5d8b8
 
     # comple model which is going to be used
     model = Model(inputs=base_model.input, outputs=predictions)
+<<<<<<< HEAD
     for layer in base_model.layers:
         layer.trainable = False
 
@@ -69,3 +100,36 @@ def CNN_resnet(train_images_normalized,train_labels,val_images_normalized,val_la
     plt.suptitle("The result of resnet50",fontsize=16)
     plt.savefig("B\images\Training and testing resnet50.png")
     return history
+=======
+
+    # 编译模型
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # 训练模型
+    history= model.fit(train_images_resized, train_labels, batch_size=32, epochs=10, validation_data=(val_images_resized, val_labels))
+
+    # 评估模型
+    test_loss, test_acc = model.evaluate(test_images_resized, test_labels)
+    print("Test accuracy:", test_acc)
+    print("Test loss:", test_loss)
+    # plot accuracy and loss of the model
+    plt.figure(figsize=(12, 4))
+    plt.subplot(1, 2, 1)
+    plt.plot(history.history['accuracy'], label='Train Accuracy')
+    plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+    plt.title('Accuracy over epochs')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.plot(history.history['loss'], label='Train Loss')
+    plt.plot(history.history['val_loss'], label='Validation Loss')
+    plt.title('Loss over epochs')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend()
+
+    plt.savefig("B\images\resnet train.png")
+    return history
+>>>>>>> dc693b5235825a13cb2b3e6d443c2b0381e5d8b8

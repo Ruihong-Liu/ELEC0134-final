@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.regularizers import l2
+<<<<<<< HEAD
+=======
+import time
+>>>>>>> dc693b5235825a13cb2b3e6d443c2b0381e5d8b8
 def train_model_origional(train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels):
      # L2 regulaisation
     l2_reg = 0.001
