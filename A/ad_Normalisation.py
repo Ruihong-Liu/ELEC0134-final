@@ -17,5 +17,5 @@ def normalisation(train_images,val_images,test_images,augmented_train_images):
     print("Train Images (augmented)- Min:", augmented_train_images_normalized.min(), "Max:", augmented_train_images_normalized.max())
     print("validation Images- Min:", val_images_normalized.min(), "Max:", val_images_normalized.max())
     print("Test Images - Min:", test_images_normalized.min(), "Max:", test_images_normalized.max())
-
+    # return the data after normalised
     return train_images_normalized,augmented_train_images_normalized,val_images_normalized,test_images_normalized
