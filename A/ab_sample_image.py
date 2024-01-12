@@ -3,7 +3,6 @@ random shows some image as an example
 """
 import matplotlib.pyplot as plt
 import random
-import time
 # random select image and show 5 images
 def display_random_images(images, labels, num_images=5):
     # random select
@@ -13,7 +12,7 @@ def display_random_images(images, labels, num_images=5):
     if num_images == 1:
         axes = [axes]
 
-    # show each image that selected
+    # show each image that selected and save it for later use
     for i, index in enumerate(random_indices):
         ax = axes[i]
         ax.imshow(images[index], cmap='gray')
