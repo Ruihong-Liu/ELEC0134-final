@@ -1,18 +1,13 @@
 """
 for trainng CNN model
 """
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import KFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.regularizers import l2
-from tensorflow.keras.utils import to_categorical
-import time
 def train_model_origional(train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels):
      # L2 regulaisation
     l2_reg = 0.001
-
     #train the model CNN
     model = Sequential([
         Conv2D(5, kernel_size=3, activation='relu', input_shape=(train_images_normalized.shape[1], train_images_normalized.shape[2], 1), kernel_regularizer=l2(l2_reg)),
@@ -54,6 +49,7 @@ def train_model_origional(train_images_normalized,val_images_normalized,test_ima
     plt.ylabel('Loss')
     plt.legend()
 
+    plt.suptitle("The result of the model without expanded dataset",fontsize=16)
     plt.savefig("A/images/Training and testing origional data.png")
     return history
 
@@ -71,7 +67,7 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
         Conv2D(5, kernel_size=3, activation='relu', kernel_regularizer=l2(l2_reg)),
         MaxPooling2D(pool_size=(2, 2)),
         Flatten(),
-        Dense(64, activation='relu', kernel_regularizer=l2(l2_reg)),
+        Dense(32, activation='relu', kernel_regularizer=l2(l2_reg)),
         Dropout(0.5),  # Dropout reduce overfit
         Dense(1, activation='sigmoid')
         ])
@@ -105,5 +101,6 @@ def train_model_augmention(augmented_train_images_normalized,augmented_train_lab
     plt.ylabel('Loss')
     plt.legend()
 
+    plt.suptitle("The result of the model with expanded dataset",fontsize=16)
     plt.savefig("A\images\Training and testing enhanced data.png")
     return history
