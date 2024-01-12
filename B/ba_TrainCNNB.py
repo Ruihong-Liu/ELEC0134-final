@@ -1,55 +1,53 @@
-import matplotlib.pyplot as plt
+import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.regularizers import l2
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, BatchNormalization, Flatten, Dense, MaxPooling2D
-import os
-
-
-def train_model( train_images_normalized,val_images_normalized,test_images_normalized,train_labels,val_labels,test_labels):
-    # Number of classes in your dataset
-    num_classes = 9  # Replace with the actual number of classes
-    train_labels= to_categorical(train_labels)
-    val_labels= to_categorical(val_labels)
-    test_labels= to_categorical(test_labels)
-    # Building the CNN model
+from tensorflow.keras.utils import to_categorical
+import matplotlib.pyplot as plt
+#function to train the model
+def train_model(train_images_normalized, val_images_normalized, test_images_normalized, train_labels, val_labels, test_labels):
+    # change the label to one hot code
+    train_labels_cat = to_categorical(train_labels, num_classes=9)
+    val_labels_cat = to_categorical(val_labels, num_classes=9)
+    test_labels_cat = to_categorical(test_labels, num_classes=9)
+    # creat the model
     model = Sequential([
-    # First layer with 4 filters
-    Conv2D(4, kernel_size=(3, 3), activation='relu', padding='same', input_shape=(28, 28, 3)),
-    BatchNormalization(),
-    MaxPooling2D(pool_size=(2, 2)),
+        #hidden layer one with input layer of 28*28*3
+        Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 3), kernel_regularizer=l2(0.001)),
+        MaxPooling2D(pool_size=(2, 2)),
+        Dropout(0.25),
+        #hidden layer 2
+        Conv2D(64, (3, 3), activation='relu', kernel_regularizer=l2(0.001)),
+        MaxPooling2D(pool_size=(2, 2)),
+        Dropout(0.25),
+        #hidden layer 3
+        Conv2D(128, (3, 3), activation='relu', kernel_regularizer=l2(0.001)),
+        Dropout(0.4),
+        #hidden layer 4
+        Flatten(),
+        Dense(128, activation='relu', kernel_regularizer=l2(0.001)),
+        Dropout(0.5),
+        #output
+        Dense(9, activation='softmax')
 
-    # Second layer with 9 filters
-    Conv2D(9, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    # Third layer with 4 filters
-    Conv2D(4, (3, 3), activation='relu', padding='same'),
-    BatchNormalization(),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    # Flattening to a single vector
-    Flatten(),
-
-    # Output layer with softmax activation
-    Dense(num_classes, activation='softmax')
     ])
 
-    # Compile the model
+    # compile the model
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    history = model.fit(train_images_normalized, train_labels,
-                    validation_data=(val_images_normalized, val_labels),
-                    epochs=10,  # 
-                    batch_size=32)
 
-    # 绘制准确率和损失图
+    # train the model
+    history = model.fit(train_images_normalized, train_labels_cat, batch_size=32, epochs=10, 
+                        validation_data=(val_images_normalized, val_labels_cat))
+
+    # testing 
+    test_loss, test_accuracy = model.evaluate( test_images_normalized, test_labels_cat)
+    print("Test Loss:", test_loss)
+    print("Test Accuracy:", test_accuracy)
+
+    # plotting the accuracy and loss graph
     plt.figure(figsize=(12, 4))
 
-    # 准确率图
+    # accuracy 
     plt.subplot(1, 2, 1)
     plt.plot(history.history['accuracy'], label='Train Accuracy')
     plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
@@ -58,7 +56,7 @@ def train_model( train_images_normalized,val_images_normalized,test_images_norma
     plt.ylabel('Accuracy')
     plt.legend()
 
-    # 损失图
+    # loss
     plt.subplot(1, 2, 2)
     plt.plot(history.history['loss'], label='Train Loss')
     plt.plot(history.history['val_loss'], label='Validation Loss')
@@ -67,13 +65,6 @@ def train_model( train_images_normalized,val_images_normalized,test_images_norma
     plt.ylabel('Loss')
     plt.legend()
 
-    plt.savefig("B\images\Training and testing of 28_28 data.png")
-
-    # 评估模型性能
-    # test_images_normalized, test_labels
-    val_loss, val_accuracy = model.evaluate(val_images_normalized, val_labels)
-    test_loss, test_accuracy = model.evaluate(test_images_normalized, test_labels)
-
-    print(f"Validation Loss: {val_loss}, Validation Accuracy: {val_accuracy}")
-    print(f"Test Loss: {test_loss}, Test Accuracy: {test_accuracy}")
+    plt.suptitle("The result of the self-designed model",fontsize=16)
+    plt.savefig("B\images\Training and testing.png")
     return history
