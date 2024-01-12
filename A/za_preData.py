@@ -1,4 +1,4 @@
-"prepare the data for training"
+"""prepare the data for training """ 
 def dataPrepare():
     # load data from file
     from aa_readfile import Dataread
